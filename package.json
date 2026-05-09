@@ -1,0 +1,41 @@
+{
+  "name": "kekarjaya-security",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:migrate": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate.ts",
+    "db:seed": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/seed.ts"
+  },
+  "dependencies": {
+    "@tiptap/extension-image": "^2.12.0",
+    "@tiptap/extension-link": "^2.12.0",
+    "@tiptap/pm": "^2.12.0",
+    "@tiptap/react": "^2.12.0",
+    "@tiptap/starter-kit": "^2.12.0",
+    "bcryptjs": "^2.4.3",
+    "jose": "^6.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.1",
+    "next": "^15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.6",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.15.17",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "dotenv": "^17.4.2",
+    "eslint": "^9.26.0",
+    "eslint-config-next": "^15.3.1",
+    "tailwindcss": "^4.1.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
