@@ -37,5 +37,7 @@ yarn-error.log*
 next-env.d.ts
 
 # openspec
+/openspec
 /.opencode
 /public/images
+/public/uploads
