@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import type { Service } from "@/types";
+import { deleteUploadedFile } from "@/lib/upload-config";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function PUT(
   request: NextRequest,
@@ -14,6 +17,8 @@ export async function PUT(
       [title, slug, description || null, icon || null, image_url || null, content || null, sort_order || 0, id]
     );
 
+    await revalidateContentType("services", slug);
+
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });
@@ -26,7 +31,12 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
+    const service = await query<Service>("SELECT image_url FROM services WHERE id = ?", [id]);
+    if (Array.isArray(service) && service[0]?.image_url) {
+      await deleteUploadedFile(service[0].image_url);
+    }
     await query("DELETE FROM services WHERE id = ?", [id]);
+    await revalidateContentType("services");
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });

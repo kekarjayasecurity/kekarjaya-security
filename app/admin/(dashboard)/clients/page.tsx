@@ -44,7 +44,7 @@ export default function AdminClientsPage() {
               <td className="px-4 py-3">
                 {client.logo_url ? (
                   <img
-                    src={`/uploads/${client.logo_url.replace(/^\/uploads\//, "")}`}
+                    src={`/api/uploads/${client.logo_url.replace(/^\/uploads\//, "")}`}
                     alt={client.name}
                     className="w-10 h-10 object-contain rounded"
                   />

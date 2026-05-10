@@ -36,11 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# uploads
-/public/uploads/*
-!/public/uploads/.gitkeep
-
-/openspec
+# openspec
 /.opencode
 /public/images
-/public/uploads

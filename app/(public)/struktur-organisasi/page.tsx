@@ -1,6 +1,8 @@
 import { queryOne } from "@/lib/db";
 import type { Page } from "@/types";
 
+export const revalidate = 3600;
+
 async function getOrgPage() {
   try {
     return await queryOne<Page>("SELECT * FROM pages WHERE slug = 'struktur-organisasi'");

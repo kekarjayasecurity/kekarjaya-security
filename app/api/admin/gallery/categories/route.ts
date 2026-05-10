@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import type { GalleryCategory } from "@/types";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function GET() {
   try {
@@ -18,6 +19,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Nama dan slug wajib diisi" }, { status: 400 });
     }
     await query("INSERT INTO gallery_categories (name, slug) VALUES (?, ?)", [name, slug]);
+    await revalidateContentType("gallery_categories");
     return NextResponse.json({ success: true }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });

@@ -1,4 +1,6 @@
 import { queryOne, query } from "@/lib/db";
+
+export const revalidate = 3600;
 import type { Page, OrganizationMember } from "@/types";
 import TentangKamiClient from "./TentangKamiClient";
 

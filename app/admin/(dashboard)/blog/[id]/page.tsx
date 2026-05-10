@@ -97,7 +97,7 @@ export default function AdminBlogFormPage() {
           </div>
           <Input label="Ringkasan" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} />
           <Input label="Tanggal Publikasi" type="datetime-local" value={publishedAt} onChange={(e) => setPublishedAt(e.target.value)} />
-          <ImageUpload value={thumbnail ? `/uploads/${thumbnail}` : undefined} onChange={setThumbnail} label="Thumbnail" />
+          <ImageUpload value={thumbnail ? `/api/uploads/${thumbnail.replace(/^\/uploads\//, "")}` : undefined} onChange={setThumbnail} label="Thumbnail" />
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Konten</label>
             <RichTextEditor content={content} onChange={setContent} />

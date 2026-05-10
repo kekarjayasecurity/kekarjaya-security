@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import type { Client } from "@/types";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function GET() {
   try {
@@ -23,6 +24,8 @@ export async function POST(request: NextRequest) {
       "INSERT INTO clients (name, logo_url, website_url, sort_order, is_active) VALUES (?, ?, ?, ?, ?)",
       [name, logo_url || null, website_url || null, sort_order || 0, is_active !== undefined ? is_active : true]
     );
+
+    await revalidateContentType("clients");
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch {

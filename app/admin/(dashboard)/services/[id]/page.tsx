@@ -105,7 +105,7 @@ export default function AdminServiceFormPage() {
           </div>
           <ImageUpload
             label="Gambar Layanan"
-            value={imageUrl ? `/uploads/${imageUrl.replace(/^\/uploads\//, "")}` : undefined}
+            value={imageUrl ? `/api/uploads/${imageUrl.replace(/^\/uploads\//, "")}` : undefined}
             onChange={(filename) => setImageUrl(filename)}
           />
           <Input label="Urutan" type="number" value={String(sortOrder)} onChange={(e) => setSortOrder(Number(e.target.value))} />

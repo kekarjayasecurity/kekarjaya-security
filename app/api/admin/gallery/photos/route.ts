@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import type { GalleryPhoto } from "@/types";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function GET() {
   try {
@@ -28,6 +29,8 @@ export async function POST(request: NextRequest) {
       "INSERT INTO gallery_photos (title, filename, category_id, sort_order) VALUES (?, ?, ?, ?)",
       [title || null, filename, category_id || null, sort_order || 0]
     );
+
+    await revalidateContentType("gallery_photos");
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch {

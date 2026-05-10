@@ -1,4 +1,6 @@
 import { query } from "@/lib/db";
+
+export const revalidate = 3600;
 import type { Service } from "@/types";
 import LayananClient from "./LayananClient";
 

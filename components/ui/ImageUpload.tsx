@@ -10,6 +10,12 @@ interface ImageUploadProps {
   onMultipleChange?: (filenames: string[]) => void;
 }
 
+function toUploadUrl(value: string | undefined): string | null {
+  if (!value) return null;
+  const bare = value.replace(/^\/uploads\//, "");
+  return `/api/uploads/${bare}`;
+}
+
 export default function ImageUpload({
   value,
   onChange,
@@ -19,7 +25,7 @@ export default function ImageUpload({
 }: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
-  const [preview, setPreview] = useState<string | null>(value || null);
+  const [preview, setPreview] = useState<string | null>(toUploadUrl(value));
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
@@ -42,7 +48,7 @@ export default function ImageUpload({
         onMultipleChange(data.filenames);
       } else if (data.filenames && data.filenames.length > 0) {
         onChange(data.filenames[0]);
-        setPreview(`/uploads/${data.filenames[0]}`);
+        setPreview(`/api/uploads/${data.filenames[0]}`);
       }
     } catch {
       alert("Upload gagal");

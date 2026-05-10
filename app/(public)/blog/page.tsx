@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { query } from "@/lib/db";
+
+export const revalidate = 3600;
 import type { BlogPost, BlogCategory } from "@/types";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/ui/AnimatedSection";
 
@@ -85,7 +87,7 @@ export default async function BlogPage({
                   {post.thumbnail && (
                     <div className="aspect-video bg-gray-200">
                       <img
-                        src={`/uploads/${post.thumbnail}`}
+                        src={`/api/uploads/${post.thumbnail}`}
                         alt={post.title}
                         className="w-full h-full object-cover"
                       />

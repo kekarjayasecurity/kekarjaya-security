@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function PUT(
   request: NextRequest,
@@ -27,6 +28,10 @@ export async function PUT(
         id,
       ]
     );
+
+    const page = await query<{ slug: string }>("SELECT slug FROM pages WHERE id = ?", [id]);
+    const slug = Array.isArray(page) && page[0] ? page[0].slug : undefined;
+    await revalidateContentType("pages", slug);
 
     return NextResponse.json({ success: true });
   } catch {

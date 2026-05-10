@@ -80,7 +80,7 @@ export default function AdminClientFormPage() {
           <Input label="Nama Klien" value={name} onChange={(e) => setName(e.target.value)} />
           <ImageUpload
             label="Logo Klien"
-            value={logoUrl ? `/uploads/${logoUrl.replace(/^\/uploads\//, "")}` : undefined}
+            value={logoUrl ? `/api/uploads/${logoUrl.replace(/^\/uploads\//, "")}` : undefined}
             onChange={(filename) => setLogoUrl(filename)}
           />
           <Input label="Website URL" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)} placeholder="https://example.com" />

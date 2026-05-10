@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import type { BlogCategory } from "@/types";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function GET() {
   try {
@@ -20,6 +21,7 @@ export async function POST(request: NextRequest) {
     }
 
     await query("INSERT INTO blog_categories (name, slug) VALUES (?, ?)", [name, slug]);
+    await revalidateContentType("blog_categories");
     return NextResponse.json({ success: true }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });

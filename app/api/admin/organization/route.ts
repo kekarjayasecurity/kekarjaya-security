@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import type { OrganizationMember } from "@/types";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function GET() {
   try {
@@ -20,6 +21,7 @@ export async function POST(request: NextRequest) {
     await query("INSERT INTO organization_members (name, position, photo, sort_order) VALUES (?, ?, ?, ?)", [
       name, position, photo || null, sort_order || 0,
     ]);
+    await revalidateContentType("organization");
     return NextResponse.json({ success: true }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });

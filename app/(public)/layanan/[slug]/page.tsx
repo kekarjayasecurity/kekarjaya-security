@@ -4,6 +4,8 @@ import { queryOne } from "@/lib/db";
 import type { Service } from "@/types";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 
+export const revalidate = 3600;
+
 async function getService(slug: string) {
   try {
     return await queryOne<Service>("SELECT * FROM services WHERE slug = ?", [slug]);
@@ -25,7 +27,7 @@ export default async function LayananDetailPage({ params }: { params: Promise<{ 
         {service.image_url ? (
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(/uploads/${service.image_url.replace(/^\/uploads\//, "")})` }}
+            style={{ backgroundImage: `url(/api/uploads/${service.image_url.replace(/^\/uploads\//, "")})` }}
           />
         ) : null}
         <div className="absolute inset-0 bg-primary-700/80" />

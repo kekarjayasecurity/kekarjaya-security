@@ -1,5 +1,7 @@
 import { query } from "@/lib/db";
 import type { GalleryPhoto, GalleryCategory } from "@/types";
+
+export const revalidate = 3600;
 import GaleriClient from "./GaleriClient";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 

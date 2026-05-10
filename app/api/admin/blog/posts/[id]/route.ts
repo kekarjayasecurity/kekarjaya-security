@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import type { BlogPost } from "@/types";
+import { deleteUploadedFile } from "@/lib/upload-config";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function PUT(
   request: NextRequest,
@@ -31,6 +34,8 @@ export async function PUT(
       [title, slug, content, excerpt, thumbnail, category_id, status, publishedAt, id]
     );
 
+    await revalidateContentType("blog_posts", slug);
+
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });
@@ -43,7 +48,12 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
+    const post = await query<BlogPost>("SELECT thumbnail FROM blog_posts WHERE id = ?", [id]);
+    if (Array.isArray(post) && post[0]?.thumbnail) {
+      await deleteUploadedFile(post[0].thumbnail);
+    }
     await query("DELETE FROM blog_posts WHERE id = ?", [id]);
+    await revalidateContentType("blog_posts");
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });

@@ -1,5 +1,7 @@
 import { query } from "@/lib/db";
 import type { Faq } from "@/types";
+
+export const revalidate = 3600;
 import FaqClient from "./FaqClient";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 

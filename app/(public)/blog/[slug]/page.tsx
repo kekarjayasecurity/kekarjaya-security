@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { query, queryOne } from "@/lib/db";
+
+export const revalidate = 3600;
 import type { BlogPost } from "@/types";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/ui/AnimatedSection";
 
@@ -86,7 +88,7 @@ export default async function BlogDetailPage({
           <AnimatedSection variant="fadeInUp" delay={0.2}>
             <div className="aspect-video mb-8 rounded-lg overflow-hidden">
               <img
-                src={`/uploads/${post.thumbnail}`}
+                src={`/api/uploads/${post.thumbnail}`}
                 alt={post.title}
                 className="w-full h-full object-cover"
               />
@@ -122,7 +124,7 @@ export default async function BlogDetailPage({
                     {r.thumbnail && (
                       <div className="aspect-video bg-gray-200">
                         <img
-                          src={`/uploads/${r.thumbnail}`}
+                          src={`/api/uploads/${r.thumbnail}`}
                           alt={r.title}
                           className="w-full h-full object-cover"
                         />

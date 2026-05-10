@@ -38,7 +38,7 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
         {heroImage ? (
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(/uploads/${heroImage.replace(/^\/uploads\//, "")})` }}
+            style={{ backgroundImage: `url(/api/uploads/${heroImage.replace(/^\/uploads\//, "")})` }}
           />
         ) : null}
         <div className="absolute inset-0 bg-primary-700/80" />
@@ -106,7 +106,7 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
                   {service.image_url ? (
                     <div className="w-full h-40 bg-gray-200 rounded-lg mb-4 overflow-hidden">
                       <img
-                        src={`/uploads/${service.image_url.replace(/^\/uploads\//, "")}`}
+                        src={`/api/uploads/${service.image_url.replace(/^\/uploads\//, "")}`}
                         alt={service.title}
                         className="w-full h-full object-cover"
                       />
@@ -216,7 +216,7 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
                     >
                       {client.logo_url && (
                         <img
-                          src={`/uploads/${client.logo_url.replace(/^\/uploads\//, "")}`}
+                          src={`/api/uploads/${client.logo_url.replace(/^\/uploads\//, "")}`}
                           alt={client.name}
                           className="h-16 w-auto object-contain mb-3"
                         />
@@ -227,7 +227,7 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
                     <div className="flex flex-col items-center p-4">
                       {client.logo_url && (
                         <img
-                          src={`/uploads/${client.logo_url.replace(/^\/uploads\//, "")}`}
+                          src={`/api/uploads/${client.logo_url.replace(/^\/uploads\//, "")}`}
                           alt={client.name}
                           className="h-16 w-auto object-contain mb-3"
                         />

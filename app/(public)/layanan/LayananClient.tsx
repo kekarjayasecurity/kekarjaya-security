@@ -32,7 +32,7 @@ export default function LayananClient({ services }: LayananClientProps) {
               {service.image_url ? (
                 <div className="w-full h-48 bg-gray-200 overflow-hidden">
                   <img
-                    src={`/uploads/${service.image_url.replace(/^\/uploads\//, "")}`}
+                    src={`/api/uploads/${service.image_url.replace(/^\/uploads\//, "")}`}
                     alt={service.title}
                     className="w-full h-full object-cover"
                   />

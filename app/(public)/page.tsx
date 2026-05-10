@@ -3,6 +3,8 @@ import { query } from "@/lib/db";
 import type { Service, Page, Client } from "@/types";
 import BerandaClient from "./BerandaClient";
 
+export const revalidate = 3600;
+
 async function getHomeData() {
   try {
     const services = await query<Service>(

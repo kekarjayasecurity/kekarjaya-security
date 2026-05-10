@@ -164,7 +164,7 @@ export default function AdminOrganizationPage() {
         <div className="space-y-4">
           <ImageUpload
             value={image || undefined}
-            onChange={(filename) => setImage(`/uploads/${filename}`)}
+            onChange={(filename) => setImage(filename)}
             label="Gambar Struktur Organisasi"
           />
           {image && (
@@ -199,7 +199,7 @@ export default function AdminOrganizationPage() {
                 <div className="w-12 h-12 rounded-full bg-gray-100 overflow-hidden shrink-0">
                   {member.photo ? (
                     <img
-                      src={`/uploads/${member.photo.replace(/^\/uploads\//, "")}`}
+                      src={`/api/uploads/${member.photo.replace(/^\/uploads\//, "")}`}
                       alt={member.name}
                       className="w-full h-full object-cover"
                     />
@@ -258,7 +258,7 @@ export default function AdminOrganizationPage() {
           <Input label="Jabatan" value={position} onChange={(e) => setPosition(e.target.value)} required />
           <ImageUpload
             label="Foto"
-            value={photo ? `/uploads/${photo.replace(/^\/uploads\//, "")}` : undefined}
+            value={photo ? `/api/uploads/${photo.replace(/^\/uploads\//, "")}` : undefined}
             onChange={(filename) => setPhoto(filename)}
           />
           <Input label="Urutan" type="number" value={String(sortOrder)} onChange={(e) => setSortOrder(Number(e.target.value))} />

@@ -1,4 +1,6 @@
 import { queryOne } from "@/lib/db";
+
+export const revalidate = 3600;
 import type { Page } from "@/types";
 import LegalitasClient from "./LegalitasClient";
 

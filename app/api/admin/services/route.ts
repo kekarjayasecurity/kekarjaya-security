@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import type { Service } from "@/types";
+import { deleteUploadedFile } from "@/lib/upload-config";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function GET() {
   try {
@@ -23,6 +25,8 @@ export async function POST(request: NextRequest) {
       "INSERT INTO services (title, slug, description, icon, image_url, content, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)",
       [title, slug, description || null, icon || null, image_url || null, content || null, sort_order || 0]
     );
+
+    await revalidateContentType("services", slug);
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch {

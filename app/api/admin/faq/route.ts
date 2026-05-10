@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import type { Faq } from "@/types";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function GET() {
   try {
@@ -20,6 +21,7 @@ export async function POST(request: NextRequest) {
     await query("INSERT INTO faq (question, answer, sort_order) VALUES (?, ?, ?)", [
       question, answer, sort_order || 0,
     ]);
+    await revalidateContentType("faq");
     return NextResponse.json({ success: true }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });

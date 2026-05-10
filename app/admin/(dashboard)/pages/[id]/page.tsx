@@ -120,7 +120,7 @@ export default function AdminPageEditor() {
               <div className="space-y-4">
                 <ImageUpload
                   label="Gambar Hero Banner"
-                  value={heroImageUrl ? `/uploads/${heroImageUrl.replace(/^\/uploads\//, "")}` : undefined}
+                  value={heroImageUrl ? `/api/uploads/${heroImageUrl.replace(/^\/uploads\//, "")}` : undefined}
                   onChange={(filename) => setHeroImageUrl(filename)}
                 />
                 <Input label="Judul Hero" value={heroTitle} onChange={(e) => setHeroTitle(e.target.value)} placeholder="Solusi Keamanan Profesional" />
@@ -149,7 +149,7 @@ export default function AdminPageEditor() {
               <h3 className="text-lg font-semibold text-primary-700 mb-3">Gambar Halaman</h3>
               <ImageUpload
                 label="Gambar Tentang Kami"
-                value={imageUrl ? `/uploads/${imageUrl.replace(/^\/uploads\//, "")}` : undefined}
+                value={imageUrl ? `/api/uploads/${imageUrl.replace(/^\/uploads\//, "")}` : undefined}
                 onChange={(filename) => setImageUrl(filename)}
               />
             </div>

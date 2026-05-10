@@ -38,7 +38,7 @@ export default function GaleriClient({
               className="aspect-square bg-gray-200 rounded-lg overflow-hidden hover:opacity-80 transition-opacity w-full"
             >
               <img
-                src={`/uploads/${photo.filename}`}
+                src={`/api/uploads/${photo.filename}`}
                 alt={photo.title || ""}
                 className="w-full h-full object-cover"
               />

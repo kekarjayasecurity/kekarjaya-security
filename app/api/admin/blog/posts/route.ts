@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import type { BlogPost } from "@/types";
+import { revalidateContentType } from "@/lib/revalidation";
 
 export async function GET(request: NextRequest) {
   try {
@@ -62,6 +63,8 @@ export async function POST(request: NextRequest) {
         publishedAt,
       ]
     );
+
+    await revalidateContentType("blog_posts", slug);
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (err: unknown) {

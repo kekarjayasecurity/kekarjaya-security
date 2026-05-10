@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
+import { writeFile } from "fs/promises";
 import path from "path";
+import { getUploadDir, ensureUploadDir, getUploadUrl } from "@/lib/upload-config";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 const MAX_SIZE = 5 * 1024 * 1024;
@@ -13,9 +14,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Tidak ada file" }, { status: 400 });
   }
 
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-  await mkdir(uploadDir, { recursive: true });
+  await ensureUploadDir();
 
+  const uploadDir = getUploadDir();
   const filenames: string[] = [];
 
   for (const file of files) {
