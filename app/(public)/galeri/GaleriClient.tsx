@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import type { GalleryPhoto } from "@/types";
+import { StaggerContainer, StaggerItem } from "@/components/ui/AnimatedSection";
+import { getIconPath } from "@/lib/icons";
 
 export default function GaleriClient({
   photos,
@@ -28,21 +30,22 @@ export default function GaleriClient({
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" staggerDelay={0.075}>
         {photos.map((photo, index) => (
-          <button
-            key={photo.id}
-            onClick={() => openLightbox(index)}
-            className="aspect-square bg-gray-200 rounded-lg overflow-hidden hover:opacity-80 transition-opacity"
-          >
-            <img
-              src={`/uploads/${photo.filename}`}
-              alt={photo.title || ""}
-              className="w-full h-full object-cover"
-            />
-          </button>
+          <StaggerItem key={photo.id}>
+            <button
+              onClick={() => openLightbox(index)}
+              className="aspect-square bg-gray-200 rounded-lg overflow-hidden hover:opacity-80 transition-opacity w-full"
+            >
+              <img
+                src={`/uploads/${photo.filename}`}
+                alt={photo.title || ""}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
 
       {photos.length === 0 && (
         <p className="text-gray-500 text-center py-12">
@@ -60,7 +63,7 @@ export default function GaleriClient({
             onClick={closeLightbox}
           >
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={getIconPath("x")!} />
             </svg>
           </button>
 
@@ -70,7 +73,7 @@ export default function GaleriClient({
               onClick={(e) => { e.stopPropagation(); navigate(-1); }}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={getIconPath("chevron-left")!} />
               </svg>
             </button>
           )}
@@ -88,7 +91,7 @@ export default function GaleriClient({
               onClick={(e) => { e.stopPropagation(); navigate(1); }}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={getIconPath("chevron-right")!} />
               </svg>
             </button>
           )}

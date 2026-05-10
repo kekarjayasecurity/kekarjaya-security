@@ -1,6 +1,7 @@
 import { query } from "@/lib/db";
 import type { GalleryPhoto, GalleryCategory } from "@/types";
 import GaleriClient from "./GaleriClient";
+import AnimatedSection from "@/components/ui/AnimatedSection";
 
 async function getPhotos(page: number, categoryId?: number) {
   const limit = 12;
@@ -49,32 +50,36 @@ export default async function GaleriPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <h1 className="text-4xl font-bold text-primary-700 mb-4">Galeri</h1>
-      <p className="text-gray-600 mb-8">
-        Dokumentasi kegiatan dan operasional PT Kekar Jaya Security.
-      </p>
+      <AnimatedSection variant="fadeInUp">
+        <h1 className="text-4xl font-bold text-primary-700 mb-4">Galeri</h1>
+        <p className="text-gray-600 mb-8">
+          Dokumentasi kegiatan dan operasional PT Kekar Jaya Security.
+        </p>
+      </AnimatedSection>
 
-      <div className="flex flex-wrap gap-2 mb-8">
-        <a
-          href="/galeri"
-          className={`px-4 py-2 rounded-lg text-sm ${
-            !categoryId ? "bg-primary-700 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-          }`}
-        >
-          Semua
-        </a>
-        {catList.map((cat) => (
+      <AnimatedSection variant="fadeInUp" delay={0.1}>
+        <div className="flex flex-wrap gap-2 mb-8">
           <a
-            key={cat.id}
-            href={`/galeri?kategori=${cat.id}`}
+            href="/galeri"
             className={`px-4 py-2 rounded-lg text-sm ${
-              categoryId === cat.id ? "bg-primary-700 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              !categoryId ? "bg-primary-700 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
-            {cat.name}
+            Semua
           </a>
-        ))}
-      </div>
+          {catList.map((cat) => (
+            <a
+              key={cat.id}
+              href={`/galeri?kategori=${cat.id}`}
+              className={`px-4 py-2 rounded-lg text-sm ${
+                categoryId === cat.id ? "bg-primary-700 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {cat.name}
+            </a>
+          ))}
+        </div>
+      </AnimatedSection>
 
       <GaleriClient photos={photos} />
     </div>

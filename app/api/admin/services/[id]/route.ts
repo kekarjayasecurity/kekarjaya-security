@@ -7,11 +7,11 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const { title, slug, description, icon, content, sort_order } = await request.json();
+    const { title, slug, description, icon, image_url, content, sort_order } = await request.json();
 
     await query(
-      "UPDATE services SET title = ?, slug = ?, description = ?, icon = ?, content = ?, sort_order = ? WHERE id = ?",
-      [title, slug, description || null, icon || null, content || null, sort_order || 0, id]
+      "UPDATE services SET title = ?, slug = ?, description = ?, icon = ?, image_url = ?, content = ?, sort_order = ? WHERE id = ?",
+      [title, slug, description || null, icon || null, image_url || null, content || null, sort_order || 0, id]
     );
 
     return NextResponse.json({ success: true });

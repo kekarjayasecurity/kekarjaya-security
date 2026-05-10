@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "db:migrate": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate.ts",
-    "db:seed": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/seed.ts"
+    "db:seed": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/seed.ts",
+    "db:migrate-v2": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate-v2.ts",
+    "db:migrate-v3": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate-v3.ts",
+    "db:migrate-v4": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate-v4.ts"
   },
   "dependencies": {
     "@tiptap/extension-image": "^2.12.0",
@@ -17,8 +20,10 @@
     "@tiptap/react": "^2.12.0",
     "@tiptap/starter-kit": "^2.12.0",
     "bcryptjs": "^2.4.3",
+    "framer-motion": "^12.38.0",
     "jose": "^6.2.3",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^1.14.0",
     "mysql2": "^3.14.1",
     "next": "^15.3.1",
     "react": "^19.1.0",

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Faq } from "@/types";
+import { getIconPath } from "@/lib/icons";
 
 export default function FaqClient({ faqs }: { faqs: Faq[] }) {
   const [search, setSearch] = useState("");
@@ -43,12 +44,12 @@ export default function FaqClient({ faqs }: { faqs: Faq[] }) {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
+<path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={getIconPath("chevron-down")!}
+                  />
               </svg>
             </button>
             {openIndex === index && (

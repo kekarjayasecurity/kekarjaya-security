@@ -11,6 +11,11 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `slug` VARCHAR(100) NOT NULL UNIQUE,
   `title` VARCHAR(255) NOT NULL,
   `content` LONGTEXT,
+  `hero_image_url` VARCHAR(255),
+  `hero_title` VARCHAR(255),
+  `hero_subtitle` VARCHAR(255),
+  `image_url` VARCHAR(255),
+  `sections` JSON DEFAULT NULL,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -20,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `services` (
   `slug` VARCHAR(255) NOT NULL UNIQUE,
   `description` TEXT,
   `icon` VARCHAR(255),
+  `image_url` VARCHAR(255),
   `content` LONGTEXT,
   `sort_order` INT DEFAULT 0,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -92,4 +98,15 @@ CREATE TABLE IF NOT EXISTS `contact_messages` (
   `message` TEXT NOT NULL,
   `is_read` BOOLEAN DEFAULT FALSE,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `clients` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL,
+  `logo_url` VARCHAR(255),
+  `website_url` VARCHAR(255),
+  `sort_order` INT DEFAULT 0,
+  `is_active` BOOLEAN DEFAULT TRUE,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

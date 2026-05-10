@@ -13,15 +13,15 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { title, slug, description, icon, content, sort_order } = await request.json();
+    const { title, slug, description, icon, image_url, content, sort_order } = await request.json();
 
     if (!title || !slug) {
       return NextResponse.json({ error: "Judul dan slug wajib diisi" }, { status: 400 });
     }
 
     await query(
-      "INSERT INTO services (title, slug, description, icon, content, sort_order) VALUES (?, ?, ?, ?, ?, ?)",
-      [title, slug, description || null, icon || null, content || null, sort_order || 0]
+      "INSERT INTO services (title, slug, description, icon, image_url, content, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [title, slug, description || null, icon || null, image_url || null, content || null, sort_order || 0]
     );
 
     return NextResponse.json({ success: true }, { status: 201 });

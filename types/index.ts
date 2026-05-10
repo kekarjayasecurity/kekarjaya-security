@@ -11,6 +11,11 @@ export interface Page {
   slug: string;
   title: string;
   content: string;
+  hero_image_url: string | null;
+  hero_title: string | null;
+  hero_subtitle: string | null;
+  image_url: string | null;
+  sections: Record<string, unknown> | null;
   updated_at: string;
 }
 
@@ -20,6 +25,7 @@ export interface Service {
   slug: string;
   description: string | null;
   icon: string | null;
+  image_url: string | null;
   content: string | null;
   sort_order: number;
   created_at: string;
@@ -92,4 +98,15 @@ export interface ContactMessage {
   message: string;
   is_read: boolean;
   created_at: string;
+}
+
+export interface Client {
+  id: number;
+  name: string;
+  logo_url: string | null;
+  website_url: string | null;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
 }

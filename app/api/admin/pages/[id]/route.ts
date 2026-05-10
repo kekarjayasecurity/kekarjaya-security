@@ -7,17 +7,26 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const { title, content } = await request.json();
+    const body = await request.json();
+    const { title, content, hero_image_url, hero_title, hero_subtitle, image_url, sections } = body;
 
     if (!title) {
       return NextResponse.json({ error: "Judul wajib diisi" }, { status: 400 });
     }
 
-    await query("UPDATE pages SET title = ?, content = ? WHERE id = ?", [
-      title,
-      content || "",
-      id,
-    ]);
+    await query(
+      "UPDATE pages SET title = ?, content = ?, hero_image_url = ?, hero_title = ?, hero_subtitle = ?, image_url = ?, sections = ? WHERE id = ?",
+      [
+        title,
+        content || "",
+        hero_image_url || null,
+        hero_title || null,
+        hero_subtitle || null,
+        image_url || null,
+        sections ? JSON.stringify(sections) : null,
+        id,
+      ]
+    );
 
     return NextResponse.json({ success: true });
   } catch {

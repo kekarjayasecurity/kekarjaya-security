@@ -5,6 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import ImageUpload from "@/components/ui/ImageUpload";
+import IconPicker from "@/components/ui/IconPicker";
 import dynamic from "next/dynamic";
 
 const RichTextEditor = dynamic(() => import("@/components/ui/RichTextEditor"), { ssr: false });
@@ -19,6 +21,7 @@ export default function AdminServiceFormPage() {
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [content, setContent] = useState("");
   const [sortOrder, setSortOrder] = useState(0);
   const [saving, setSaving] = useState(false);
@@ -35,6 +38,7 @@ export default function AdminServiceFormPage() {
             setSlug(found.slug);
             setDescription(found.description || "");
             setIcon(found.icon || "");
+            setImageUrl(found.image_url || "");
             setContent(found.content || "");
             setSortOrder(found.sort_order || 0);
           }
@@ -55,7 +59,7 @@ export default function AdminServiceFormPage() {
   async function handleSave() {
     setSaving(true);
     try {
-      const body = { title, slug, description, icon, content, sort_order: sortOrder };
+      const body = { title, slug, description, icon, image_url: imageUrl, content, sort_order: sortOrder };
       if (isNew) {
         const res = await fetch("/api/admin/services", {
           method: "POST",
@@ -92,7 +96,18 @@ export default function AdminServiceFormPage() {
           <Input label="Judul" value={title} onChange={(e) => { setTitle(e.target.value); if (isNew) setSlug(generateSlug(e.target.value)); }} />
           <Input label="Slug" value={slug} onChange={(e) => setSlug(e.target.value)} disabled={!isNew} />
           <Input label="Deskripsi Singkat" value={description} onChange={(e) => setDescription(e.target.value)} />
-          <Input label="Ikon (nama ikon)" value={icon} onChange={(e) => setIcon(e.target.value)} />
+          <div>
+            <IconPicker
+              label="Ikon"
+              value={icon}
+              onChange={setIcon}
+            />
+          </div>
+          <ImageUpload
+            label="Gambar Layanan"
+            value={imageUrl ? `/uploads/${imageUrl.replace(/^\/uploads\//, "")}` : undefined}
+            onChange={(filename) => setImageUrl(filename)}
+          />
           <Input label="Urutan" type="number" value={String(sortOrder)} onChange={(e) => setSortOrder(Number(e.target.value))} />
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Konten</label>
