@@ -7,30 +7,29 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const { title, slug, content, excerpt, thumbnail, category_id, status } =
+    const { title, slug, content, excerpt, thumbnail, category_id, status, published_at } =
       await request.json();
 
-    const existing = await query<{ status: string }>(
-      "SELECT status FROM blog_posts WHERE id = ?",
+    const existing = await query<{ status: string; published_at: string }>(
+      "SELECT status, published_at FROM blog_posts WHERE id = ?",
       [id]
     );
 
-    let publishedAt = null;
-    if (status === "published" && Array.isArray(existing) && existing[0]?.status !== "published") {
-      publishedAt = new Date().toISOString();
+    let publishedAt: string | null = null;
+    if (status === "published") {
+      if (published_at) {
+        publishedAt = published_at;
+      } else if (Array.isArray(existing) && existing[0]?.published_at) {
+        publishedAt = new Date(existing[0].published_at).toISOString().slice(0, 19).replace("T", " ");
+      } else {
+        publishedAt = new Date().toISOString().slice(0, 19).replace("T", " ");
+      }
     }
 
-    if (publishedAt) {
-      await query(
-        `UPDATE blog_posts SET title = ?, slug = ?, content = ?, excerpt = ?, thumbnail = ?, category_id = ?, status = ?, published_at = ? WHERE id = ?`,
-        [title, slug, content, excerpt, thumbnail, category_id, status, publishedAt, id]
-      );
-    } else {
-      await query(
-        `UPDATE blog_posts SET title = ?, slug = ?, content = ?, excerpt = ?, thumbnail = ?, category_id = ?, status = ? WHERE id = ?`,
-        [title, slug, content, excerpt, thumbnail, category_id, status, id]
-      );
-    }
+    await query(
+      `UPDATE blog_posts SET title = ?, slug = ?, content = ?, excerpt = ?, thumbnail = ?, category_id = ?, status = ?, published_at = ? WHERE id = ?`,
+      [title, slug, content, excerpt, thumbnail, category_id, status, publishedAt, id]
+    );
 
     return NextResponse.json({ success: true });
   } catch {

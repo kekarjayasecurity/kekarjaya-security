@@ -29,6 +29,7 @@ export default function AdminBlogFormPage() {
   const [thumbnail, setThumbnail] = useState("");
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [status, setStatus] = useState<"draft" | "published">("draft");
+  const [publishedAt, setPublishedAt] = useState("");
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(!isNew);
@@ -48,6 +49,10 @@ export default function AdminBlogFormPage() {
             setThumbnail(found.thumbnail || "");
             setCategoryId(found.category_id);
             setStatus(found.status);
+            if (found.published_at) {
+              const d = new Date(found.published_at);
+              setPublishedAt(d.toISOString().slice(0, 16));
+            }
           }
           setLoading(false);
         })
@@ -62,7 +67,7 @@ export default function AdminBlogFormPage() {
   async function handleSave(publishStatus: "draft" | "published") {
     setSaving(true);
     try {
-      const body = { title, slug, excerpt, content, thumbnail, category_id: categoryId, status: publishStatus };
+      const body = { title, slug, excerpt, content, thumbnail, category_id: categoryId, status: publishStatus, published_at: publishStatus === "published" ? (publishedAt || new Date().toISOString().slice(0, 19).replace("T", " ")) : null };
       const url = isNew ? "/api/admin/blog/posts" : `/api/admin/blog/posts/${id}`;
       const method = isNew ? "POST" : "PUT";
       const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
@@ -91,6 +96,7 @@ export default function AdminBlogFormPage() {
             </select>
           </div>
           <Input label="Ringkasan" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} />
+          <Input label="Tanggal Publikasi" type="datetime-local" value={publishedAt} onChange={(e) => setPublishedAt(e.target.value)} />
           <ImageUpload value={thumbnail ? `/uploads/${thumbnail}` : undefined} onChange={setThumbnail} label="Thumbnail" />
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Konten</label>

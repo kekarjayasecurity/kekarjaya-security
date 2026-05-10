@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { title, slug, content, excerpt, thumbnail, category_id, status } =
+    const { title, slug, content, excerpt, thumbnail, category_id, status, published_at } =
       await request.json();
 
     if (!title || !slug) {
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const publishedAt = status === "published" ? new Date().toISOString() : null;
+    const publishedAt = status === "published" ? (published_at || new Date().toISOString().slice(0, 19).replace("T", " ")) : null;
 
     await query(
       `INSERT INTO blog_posts (title, slug, content, excerpt, thumbnail, category_id, status, published_at) 

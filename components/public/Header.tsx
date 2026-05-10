@@ -1,13 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+interface Service {
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+}
 
 const navLinks = [
   { href: "/", label: "Beranda" },
   { href: "/tentang-kami", label: "Tentang Kami" },
-  { href: "/layanan", label: "Layanan" },
+  { href: "/layanan", label: "Layanan", hasDropdown: true },
   { href: "/legalitas", label: "Legalitas" },
   { href: "/struktur-organisasi", label: "Struktur Organisasi" },
   { href: "/faq", label: "FAQ" },
@@ -18,7 +25,17 @@ const navLinks = [
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [services, setServices] = useState<Service[]>([]);
   const pathname = usePathname();
+
+  useEffect(() => {
+    fetch("/api/admin/services")
+      .then((r) => r.json())
+      .then((d) => setServices(Array.isArray(d) ? d : []))
+      .catch(() => {});
+  }, []);
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -39,19 +56,63 @@ export default function Header() {
           </Link>
 
           <nav className="hidden lg:flex items-center space-x-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  pathname === link.href
-                    ? "bg-primary-700 text-white"
-                    : "text-gray-700 hover:bg-primary-50 hover:text-primary-700"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) =>
+              link.hasDropdown ? (
+                <div
+                  key={link.href}
+                  className="relative"
+                  onMouseEnter={() => setServicesOpen(true)}
+                  onMouseLeave={() => setServicesOpen(false)}
+                >
+                  <Link
+                    href={link.href}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors inline-flex items-center gap-1 ${
+                      pathname.startsWith("/layanan")
+                        ? "bg-primary-700 text-white"
+                        : "text-gray-700 hover:bg-primary-50 hover:text-primary-700"
+                    }`}
+                  >
+                    {link.label}
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </Link>
+                  {servicesOpen && services.length > 0 && (
+                    <div className="absolute top-full left-0 mt-0 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                      {services.map((svc) => (
+                        <Link
+                          key={svc.id}
+                          href={`/layanan/${svc.slug}`}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-700 transition-colors"
+                        >
+                          {svc.title}
+                        </Link>
+                      ))}
+                      <div className="border-t border-gray-100 mt-1 pt-1">
+                        <Link
+                          href="/layanan"
+                          className="block px-4 py-2 text-sm text-accent-500 font-medium hover:bg-accent-50 transition-colors"
+                        >
+                          Lihat Semua Layanan
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    pathname === link.href
+                      ? "bg-primary-700 text-white"
+                      : "text-gray-700 hover:bg-primary-50 hover:text-primary-700"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </nav>
 
           <button
@@ -59,26 +120,11 @@ export default function Header() {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
           </button>
@@ -88,20 +134,62 @@ export default function Header() {
       {mobileOpen && (
         <div className="lg:hidden border-t bg-white">
           <div className="px-4 py-2 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                  pathname === link.href
-                    ? "bg-primary-700 text-white"
-                    : "text-gray-700 hover:bg-primary-50"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) =>
+              link.hasDropdown ? (
+                <div key={link.href}>
+                  <button
+                    onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium flex items-center justify-between ${
+                      pathname.startsWith("/layanan")
+                        ? "bg-primary-700 text-white"
+                        : "text-gray-700 hover:bg-primary-50"
+                    }`}
+                  >
+                    {link.label}
+                    <svg
+                      className={`w-4 h-4 transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`}
+                      fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {mobileServicesOpen && (
+                    <div className="ml-4 space-y-1 mt-1">
+                      {services.map((svc) => (
+                        <Link
+                          key={svc.id}
+                          href={`/layanan/${svc.slug}`}
+                          onClick={() => setMobileOpen(false)}
+                          className="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-primary-50 hover:text-primary-700"
+                        >
+                          {svc.title}
+                        </Link>
+                      ))}
+                      <Link
+                        href="/layanan"
+                        onClick={() => setMobileOpen(false)}
+                        className="block px-3 py-2 rounded-md text-sm text-accent-500 font-medium hover:bg-accent-50"
+                      >
+                        Semua Layanan
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                    pathname === link.href
+                      ? "bg-primary-700 text-white"
+                      : "text-gray-700 hover:bg-primary-50"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </div>
         </div>
       )}

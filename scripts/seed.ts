@@ -39,6 +39,11 @@ async function seed() {
       content:
         '<h2>Legalitas Perusahaan</h2><p>PT Kekar Jaya Security beroperasi secara legal dan memiliki seluruh izin yang diperlukan untuk menyediakan layanan keamanan.</p><h3>Dokumen Legalitas</h3><ul><li><strong>Akta Pendirian Perusahaan</strong> - Nomor: XXX, Notaris: XXX</li><li><strong>Surat Izin Usaha Jasa Keamanan (SIUJK)</strong> - Diterbitkan oleh Kepolisian Republik Indonesia</li><li><strong>SIUP (Surat Izin Usaha Perdagangan)</strong></li><li><strong>TDP (Tanda Daftar Perusahaan)</strong></li><li><strong>NPWP (Nomor Pokok Wajib Pajak)</strong></li><li><strong>Sertifikat Standar Keamanan</strong></li></ul>',
     },
+    {
+      slug: "struktur-organisasi",
+      title: "Struktur Organisasi",
+      content: "",
+    },
   ];
 
   for (const page of pages) {
