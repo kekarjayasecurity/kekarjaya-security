@@ -32,8 +32,6 @@ export default function AdminPageEditor() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [heroImageUrl, setHeroImageUrl] = useState("");
-  const [heroTitle, setHeroTitle] = useState("");
-  const [heroSubtitle, setHeroSubtitle] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [sections, setSections] = useState<SectionsState>({});
   const [saving, setSaving] = useState(false);
@@ -50,8 +48,6 @@ export default function AdminPageEditor() {
           setTitle(found.title);
           setContent(found.content || "");
           setHeroImageUrl(found.hero_image_url || "");
-          setHeroTitle(found.hero_title || "");
-          setHeroSubtitle(found.hero_subtitle || "");
           setImageUrl(found.image_url || "");
           if (found.sections && typeof found.sections === "object") {
             setSections(found.sections as SectionsState);
@@ -73,8 +69,6 @@ export default function AdminPageEditor() {
           title,
           content,
           hero_image_url: heroImageUrl,
-          hero_title: heroTitle,
-          hero_subtitle: heroSubtitle,
           image_url: imageUrl,
           sections,
         }),
@@ -123,8 +117,6 @@ export default function AdminPageEditor() {
                   value={heroImageUrl ? `/api/uploads/${heroImageUrl.replace(/^\/uploads\//, "")}` : undefined}
                   onChange={(filename) => setHeroImageUrl(filename)}
                 />
-                <Input label="Judul Hero" value={heroTitle} onChange={(e) => setHeroTitle(e.target.value)} placeholder="Solusi Keamanan Profesional" />
-                <Input label="Sub Judul Hero" value={heroSubtitle} onChange={(e) => setHeroSubtitle(e.target.value)} placeholder="PT Kekar Jaya Security menyediakan layanan..." />
               </div>
             </div>
           )}

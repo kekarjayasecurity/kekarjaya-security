@@ -25,8 +25,9 @@ const defaultWhyChooseUs: WhyChooseUsItem[] = [
 
 export default function BerandaClient({ services, page, clients }: BerandaClientProps) {
   const heroImage = page?.hero_image_url || null;
-  const heroTitle = page?.hero_title || "Solusi Keamanan Profesional & Terpercaya";
-  const heroSubtitle = page?.hero_subtitle || "PT Kekar Jaya Security menyediakan layanan keamanan terpadu untuk melindungi aset dan keselamatan Anda dengan tenaga terlatih dan bersertifikat.";
+  const heroContent =
+    page?.content ||
+    "<h1>Solusi Keamanan Profesional &amp; Terpercaya</h1><p>PT Kekar Jaya Security menyediakan layanan keamanan terpadu untuk melindungi aset dan keselamatan Anda dengan tenaga terlatih dan bersertifikat.</p>";
 
   const whyChooseUs = (page?.sections?.why_choose_us as WhyChooseUsItem[] | undefined)?.length
     ? (page!.sections!.why_choose_us as WhyChooseUsItem[])
@@ -44,22 +45,13 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
         <div className="absolute inset-0 bg-primary-700/80" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="max-w-3xl">
-            <motion.h1
-              className="text-4xl md:text-5xl font-bold mb-6"
+            <motion.div
+              className="text-white mb-8 [&_h2]:text-4xl [&_h2]:md:text-5xl [&_h2]:font-bold [&_h2]:mb-6 [&_h3]:text-3xl [&_h3]:md:text-4xl [&_h3]:font-bold [&_h3]:mb-6 [&_p]:text-md [&_p]:text-gray-200"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              {heroTitle}
-            </motion.h1>
-            <motion.p
-              className="text-xl text-gray-200 mb-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            >
-              {heroSubtitle}
-            </motion.p>
+              dangerouslySetInnerHTML={{ __html: heroContent }}
+            />
             <motion.div
               className="flex flex-wrap gap-4"
               initial={{ opacity: 0, y: 20 }}
