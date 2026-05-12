@@ -43,9 +43,11 @@ export default async function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-accent-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">KJ</span>
-              </div>
+              <img
+                src="/images/logo.png"
+                alt="PT Kekar Jaya Security"
+                className="w-10 h-10 object-contain"
+              />
               <div>
                 <span className="font-bold text-lg">Kekar Jaya</span>
                 <span className="block text-xs text-gray-300 -mt-1">

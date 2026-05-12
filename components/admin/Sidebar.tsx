@@ -29,9 +29,11 @@ export default function AdminSidebar() {
     <aside className="w-64 bg-primary-800 text-white min-h-screen flex flex-col">
       <div className="p-4 border-b border-primary-600">
         <Link href="/admin" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-accent-500 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">KJ</span>
-          </div>
+          <img
+            src="/images/logo.png"
+            alt="PT Kekar Jaya Security"
+            className="w-8 h-8 object-contain"
+          />
           <div>
             <span className="font-bold text-sm">Kekar Jaya</span>
             <span className="block text-xs text-gray-300 -mt-1">Admin Panel</span>
