@@ -5,6 +5,7 @@ import { query, queryOne } from "@/lib/db";
 export const revalidate = 3600;
 import type { BlogPost } from "@/types";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/ui/AnimatedSection";
+import { getImageUrl } from "@/lib/image-url";
 
 async function getPost(slug: string) {
   try {
@@ -88,7 +89,7 @@ export default async function BlogDetailPage({
           <AnimatedSection variant="fadeInUp" delay={0.2}>
             <div className="aspect-video mb-8 rounded-lg overflow-hidden">
               <img
-                src={`/api/uploads/${post.thumbnail}`}
+                src={getImageUrl(post.thumbnail)}
                 alt={post.title}
                 className="w-full h-full object-cover"
               />
@@ -124,7 +125,7 @@ export default async function BlogDetailPage({
                     {r.thumbnail && (
                       <div className="aspect-video bg-gray-200">
                         <img
-                          src={`/api/uploads/${r.thumbnail}`}
+                          src={getImageUrl(r.thumbnail)}
                           alt={r.title}
                           className="w-full h-full object-cover"
                         />

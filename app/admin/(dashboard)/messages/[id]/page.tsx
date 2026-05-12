@@ -53,7 +53,11 @@ export default function AdminMessageDetailPage() {
             </div>
             <div>
               <p className="text-sm text-gray-500">Email</p>
-              <p className="font-medium">{message.email}</p>
+              <p className="font-medium">{message.email || "-"}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Telepon</p>
+              <p className="font-medium">{message.phone || "-"}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Subjek</p>

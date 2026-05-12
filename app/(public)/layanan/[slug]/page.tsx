@@ -3,6 +3,7 @@ import Link from "next/link";
 import { queryOne } from "@/lib/db";
 import type { Service } from "@/types";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { getImageUrl } from "@/lib/image-url";
 
 export const revalidate = 3600;
 
@@ -27,7 +28,7 @@ export default async function LayananDetailPage({ params }: { params: Promise<{ 
         {service.image_url ? (
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(/api/uploads/${service.image_url.replace(/^\/uploads\//, "")})` }}
+            style={{ backgroundImage: `url(${getImageUrl(service.image_url)})` }}
           />
         ) : null}
         <div className="absolute inset-0 bg-primary-700/80" />

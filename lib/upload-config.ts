@@ -16,6 +16,9 @@ export function getUploadUrl(filename: string): string {
   return `/api/uploads/${bare}`;
 }
 
+// Re-export for backward compatibility in server-side code
+export { getImageUrl } from "./image-url";
+
 export async function ensureUploadDir(): Promise<void> {
   await mkdir(getUploadDir(), { recursive: true });
 }

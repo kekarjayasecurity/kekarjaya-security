@@ -1,170 +1,31 @@
-"use client";
+import { queryOne } from "@/lib/db";
+import type { Page } from "@/types";
+import KontakClient from "./KontakClient";
 
-import { useState } from "react";
-import Input from "@/components/ui/Input";
-import Textarea from "@/components/ui/Textarea";
-import Button from "@/components/ui/Button";
-import AnimatedSection from "@/components/ui/AnimatedSection";
-import { getIconPath } from "@/lib/icons";
+export const revalidate = 3600;
 
-export default function KontakPage() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
+interface ContactSection {
+  address?: string;
+  phone?: string;
+  email?: string;
+  map_url?: string;
+}
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setSuccess(false);
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Terjadi kesalahan");
-        return;
-      }
-
-      setSuccess(true);
-      setForm({ name: "", email: "", subject: "", message: "" });
-    } catch {
-      setError("Terjadi kesalahan koneksi");
-    } finally {
-      setLoading(false);
+async function getKontakPage() {
+  try {
+    const page = await queryOne<Page>("SELECT * FROM pages WHERE slug = ?", ["kontak"]);
+    if (page && typeof page.sections === "string") {
+      page.sections = JSON.parse(page.sections);
     }
+    return page;
+  } catch {
+    return null;
   }
+}
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <AnimatedSection variant="fadeInUp">
-        <h1 className="text-4xl font-bold text-primary-700 mb-4">Kontak Kami</h1>
-        <p className="text-gray-600 mb-12">
-          Hubungi kami untuk konsultasi atau pertanyaan mengenai layanan keamanan.
-        </p>
-      </AnimatedSection>
+export default async function KontakPage() {
+  const page = await getKontakPage();
+  const contact = (page?.sections as { contact?: ContactSection } | null)?.contact || {};
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <AnimatedSection variant="fadeInLeft">
-          <div>
-            <h2 className="text-xl font-bold text-primary-700 mb-6">
-              Kirim Pesan
-            </h2>
-
-            {success && (
-              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4">
-                Pesan Anda berhasil terkirim! Kami akan segera menghubungi Anda.
-              </div>
-            )}
-
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
-                {error}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                label="Nama"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                required
-              />
-              <Input
-                label="Email"
-                type="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                required
-              />
-              <Input
-                label="Subjek"
-                value={form.subject}
-                onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                required
-              />
-              <Textarea
-                label="Pesan"
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                required
-              />
-              <Button type="submit" disabled={loading}>
-                {loading ? "Mengirim..." : "Kirim Pesan"}
-              </Button>
-            </form>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection variant="fadeInRight" delay={0.2}>
-          <div>
-            <h2 className="text-xl font-bold text-primary-700 mb-6">
-              Informasi Kontak
-            </h2>
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={getIconPath("map-pin")!} />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={getIconPath("map-pin-inner")!} />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-bold text-primary-700">Alamat</h3>
-                  <p className="text-gray-600 text-sm">Jl. Contoh Alamat No. 123, Jakarta, Indonesia</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={getIconPath("phone")!} />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-bold text-primary-700">Telepon</h3>
-                  <p className="text-gray-600 text-sm">(021) 1234-5678</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={getIconPath("mail")!} />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-bold text-primary-700">Email</h3>
-                  <p className="text-gray-600 text-sm">info@kekarjayasecurity.com</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8 rounded-lg overflow-hidden bg-gray-200 h-64">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253840.65295085552!2d106.68942955!3d-6.229728!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta%2C%20Indonesia!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Lokasi PT Kekar Jaya Security"
-              />
-            </div>
-          </div>
-        </AnimatedSection>
-      </div>
-    </div>
-  );
+  return <KontakClient contact={contact} />;
 }

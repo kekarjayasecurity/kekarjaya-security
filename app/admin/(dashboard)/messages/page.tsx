@@ -29,7 +29,7 @@ export default function AdminMessagesPage() {
     <div>
       <h1 className="text-2xl font-bold text-primary-700 mb-6">Pesan Kontak</h1>
       <Card>
-        <Table headers={["Status", "Nama", "Subjek", "Tanggal", "Aksi"]}>
+        <Table headers={["Status", "Nama", "Telepon", "Subjek", "Tanggal", "Aksi"]}>
           {messages.map((msg) => (
             <tr key={msg.id} className="border-b hover:bg-gray-50">
               <td className="px-4 py-3">
@@ -40,6 +40,7 @@ export default function AdminMessagesPage() {
                 )}
               </td>
               <td className="px-4 py-3 font-medium">{msg.name}</td>
+              <td className="px-4 py-3 text-gray-500 text-sm">{msg.phone || "-"}</td>
               <td className="px-4 py-3 text-gray-500">{msg.subject}</td>
               <td className="px-4 py-3 text-gray-500 text-sm">
                 {new Date(msg.created_at).toLocaleDateString("id-ID")}

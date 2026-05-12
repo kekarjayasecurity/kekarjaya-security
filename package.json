@@ -12,7 +12,8 @@
     "db:migrate-v2": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate-v2.ts",
     "db:migrate-v3": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate-v3.ts",
     "db:migrate-v4": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate-v4.ts",
-    "db:migrate-v5": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate-v5.ts"
+    "db:migrate-v5": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate-v5.ts",
+    "db:migrate-v6": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/migrate-v6.ts"
   },
   "dependencies": {
     "@tiptap/extension-image": "^2.12.0",

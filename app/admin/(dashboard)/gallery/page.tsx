@@ -9,6 +9,7 @@ import Input from "@/components/ui/Input";
 import ImageUpload from "@/components/ui/ImageUpload";
 import Modal from "@/components/ui/Modal";
 import Link from "next/link";
+import { getImageUrl } from "@/lib/image-url";
 
 export default function AdminGalleryPage() {
   const [photos, setPhotos] = useState<(GalleryPhoto & { category_name: string })[]>([]);
@@ -66,7 +67,7 @@ export default function AdminGalleryPage() {
         {photos.map((photo) => (
           <div key={photo.id} className="group relative">
             <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
-              <img src={`/api/uploads/${photo.filename}`} alt={photo.title || ""} className="w-full h-full object-cover" />
+              <img src={getImageUrl(photo.filename)} alt={photo.title || ""} className="w-full h-full object-cover" />
             </div>
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
               <button onClick={() => handleDelete(photo.id)} className="text-white text-sm font-medium bg-red-600 px-3 py-1 rounded-lg">Hapus</button>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { GalleryPhoto } from "@/types";
 import { StaggerContainer, StaggerItem } from "@/components/ui/AnimatedSection";
 import { getIconPath } from "@/lib/icons";
+import { getImageUrl } from "@/lib/image-url";
 
 export default function GaleriClient({
   photos,
@@ -38,7 +39,7 @@ export default function GaleriClient({
               className="aspect-square bg-gray-200 rounded-lg overflow-hidden hover:opacity-80 transition-opacity w-full"
             >
               <img
-                src={`/api/uploads/${photo.filename}`}
+                src={getImageUrl(photo.filename)}
                 alt={photo.title || ""}
                 className="w-full h-full object-cover"
               />
@@ -79,7 +80,7 @@ export default function GaleriClient({
           )}
 
           <img
-            src={`/uploads/${photos[lightboxIndex].filename}`}
+            src={getImageUrl(photos[lightboxIndex].filename)}
             alt={photos[lightboxIndex].title || ""}
             className="max-w-[90vw] max-h-[85vh] object-contain"
             onClick={(e) => e.stopPropagation()}

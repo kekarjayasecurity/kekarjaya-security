@@ -110,7 +110,14 @@ async function seed() {
       hero_title: null,
       hero_subtitle: null,
       image_url: null,
-      sections: null,
+      sections: JSON.stringify({
+        contact: {
+          address: "Jl. Keamanan No. 45, Jakarta Selatan 12345",
+          phone: "(021) 555-1234",
+          email: "info@kekarjayasecurity.co.id",
+          map_url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253840.65295085552!2d106.68942955!3d-6.229728!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta%2C%20Indonesia!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid",
+        },
+      }),
     },
   ];
 

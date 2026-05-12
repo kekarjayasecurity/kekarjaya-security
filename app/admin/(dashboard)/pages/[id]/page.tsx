@@ -16,12 +16,20 @@ interface SectionItem {
   [key: string]: string | number;
 }
 
+interface ContactSection {
+  address?: string;
+  phone?: string;
+  email?: string;
+  map_url?: string;
+}
+
 interface SectionsState {
   why_choose_us?: SectionItem[];
   vision?: string;
   mission_items?: string[];
   values?: SectionItem[];
   documents?: SectionItem[];
+  contact?: ContactSection;
 }
 
 export default function AdminPageEditor() {
@@ -84,6 +92,7 @@ export default function AdminPageEditor() {
   const isBeranda = page.slug === "beranda";
   const isTentangKami = page.slug === "tentang-kami";
   const isLegalitas = page.slug === "legalitas";
+  const isKontak = page.slug === "kontak";
 
   return (
     <div>
@@ -103,10 +112,63 @@ export default function AdminPageEditor() {
       <Card className="p-6">
         <div className="space-y-4">
           <Input label="Judul" value={title} onChange={(e) => setTitle(e.target.value)} />
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Konten</label>
-            <RichTextEditor content={content} onChange={setContent} />
-          </div>
+
+          {isKontak ? (
+            <div className="border-t pt-4 mt-4">
+              <h3 className="text-lg font-semibold text-primary-700 mb-3">Informasi Kontak</h3>
+              <div className="space-y-4">
+                <Input
+                  label="Alamat"
+                  value={sections.contact?.address || ""}
+                  onChange={(e) =>
+                    setSections({
+                      ...sections,
+                      contact: { ...(sections.contact || {}), address: e.target.value },
+                    })
+                  }
+                  placeholder="Jl. Contoh Alamat No. 123, Jakarta, Indonesia"
+                />
+                <Input
+                  label="Telepon"
+                  value={sections.contact?.phone || ""}
+                  onChange={(e) =>
+                    setSections({
+                      ...sections,
+                      contact: { ...(sections.contact || {}), phone: e.target.value },
+                    })
+                  }
+                  placeholder="(021) 1234-5678"
+                />
+                <Input
+                  label="Email"
+                  value={sections.contact?.email || ""}
+                  onChange={(e) =>
+                    setSections({
+                      ...sections,
+                      contact: { ...(sections.contact || {}), email: e.target.value },
+                    })
+                  }
+                  placeholder="info@kekarjayasecurity.co.id"
+                />
+                <Input
+                  label="Google Map URL (Embed)"
+                  value={sections.contact?.map_url || ""}
+                  onChange={(e) =>
+                    setSections({
+                      ...sections,
+                      contact: { ...(sections.contact || {}), map_url: e.target.value },
+                    })
+                  }
+                  placeholder="https://www.google.com/maps/embed?pb=..."
+                />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Konten</label>
+              <RichTextEditor content={content} onChange={setContent} />
+            </div>
+          )}
 
           {isBeranda && (
             <div className="border-t pt-4 mt-4">
@@ -114,7 +176,7 @@ export default function AdminPageEditor() {
               <div className="space-y-4">
                 <ImageUpload
                   label="Gambar Hero Banner"
-                  value={heroImageUrl ? `/api/uploads/${heroImageUrl.replace(/^\/uploads\//, "")}` : undefined}
+                  value={heroImageUrl || undefined}
                   onChange={(filename) => setHeroImageUrl(filename)}
                 />
               </div>
@@ -141,7 +203,7 @@ export default function AdminPageEditor() {
               <h3 className="text-lg font-semibold text-primary-700 mb-3">Gambar Halaman</h3>
               <ImageUpload
                 label="Gambar Tentang Kami"
-                value={imageUrl ? `/api/uploads/${imageUrl.replace(/^\/uploads\//, "")}` : undefined}
+                value={imageUrl || undefined}
                 onChange={(filename) => setImageUrl(filename)}
               />
             </div>

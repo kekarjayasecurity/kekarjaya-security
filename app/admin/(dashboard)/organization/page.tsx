@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import ImageUpload from "@/components/ui/ImageUpload";
+import { getImageUrl } from "@/lib/image-url";
 
 export default function AdminOrganizationPage() {
   const [members, setMembers] = useState<OrganizationMember[]>([]);
@@ -197,13 +198,13 @@ export default function AdminOrganizationPage() {
             {members.map((member, index) => (
               <div key={member.id} className="flex items-center gap-4 p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
                 <div className="w-12 h-12 rounded-full bg-gray-100 overflow-hidden shrink-0">
-                  {member.photo ? (
-                    <img
-                      src={`/api/uploads/${member.photo.replace(/^\/uploads\//, "")}`}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
+                      {member.photo ? (
+                        <img
+                          src={getImageUrl(member.photo)}
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-400">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -258,7 +259,7 @@ export default function AdminOrganizationPage() {
           <Input label="Jabatan" value={position} onChange={(e) => setPosition(e.target.value)} required />
           <ImageUpload
             label="Foto"
-            value={photo ? `/api/uploads/${photo.replace(/^\/uploads\//, "")}` : undefined}
+            value={photo || undefined}
             onChange={(filename) => setPhoto(filename)}
           />
           <Input label="Urutan" type="number" value={String(sortOrder)} onChange={(e) => setSortOrder(Number(e.target.value))} />

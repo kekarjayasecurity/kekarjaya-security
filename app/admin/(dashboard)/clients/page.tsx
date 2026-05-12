@@ -6,6 +6,7 @@ import type { Client } from "@/types";
 import Card from "@/components/ui/Card";
 import Table from "@/components/ui/Table";
 import Button from "@/components/ui/Button";
+import { getImageUrl } from "@/lib/image-url";
 
 export default function AdminClientsPage() {
   const [clients, setClients] = useState<Client[]>([]);
@@ -42,15 +43,15 @@ export default function AdminClientsPage() {
           {clients.map((client) => (
             <tr key={client.id} className="border-b hover:bg-gray-50">
               <td className="px-4 py-3">
-                {client.logo_url ? (
-                  <img
-                    src={`/api/uploads/${client.logo_url.replace(/^\/uploads\//, "")}`}
-                    alt={client.name}
-                    className="w-10 h-10 object-contain rounded"
-                  />
-                ) : (
-                  <span className="text-gray-400 text-sm">-</span>
-                )}
+                  {client.logo_url ? (
+                    <img
+                      src={getImageUrl(client.logo_url)}
+                      alt={client.name}
+                      className="w-10 h-10 object-contain rounded"
+                    />
+                  ) : (
+                    <span className="text-gray-400 text-sm">-</span>
+                  )}
               </td>
               <td className="px-4 py-3 font-medium">{client.name}</td>
               <td className="px-4 py-3 text-gray-500 text-sm">

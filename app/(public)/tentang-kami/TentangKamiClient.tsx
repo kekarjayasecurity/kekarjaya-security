@@ -2,6 +2,7 @@
 
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/ui/AnimatedSection";
 import { getIconPath } from "@/lib/icons";
+import { getImageUrl } from "@/lib/image-url";
 import type { Page, OrganizationMember } from "@/types";
 
 interface TentangKamiClientProps {
@@ -45,7 +46,7 @@ export default function TentangKamiClient({ page, members }: TentangKamiClientPr
         {imageUrl ? (
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(/api/uploads/${imageUrl.replace(/^\/uploads\//, "")})` }}
+            style={{ backgroundImage: `url(${getImageUrl(imageUrl)})` }}
           />
         ) : null}
         <div className="absolute inset-0 bg-primary-700/85" />
@@ -80,7 +81,7 @@ export default function TentangKamiClient({ page, members }: TentangKamiClientPr
               {imageUrl ? (
                 <div className="overflow-hidden rounded-xl shadow-lg">
                   <img
-                    src={`/api/uploads/${imageUrl.replace(/^\/uploads\//, "")}`}
+                    src={getImageUrl(imageUrl)}
                     alt="Tentang PT Kekar Jaya Security"
                     className="w-full h-auto object-cover"
                   />
@@ -178,7 +179,7 @@ export default function TentangKamiClient({ page, members }: TentangKamiClientPr
                     <div className="bg-primary-100 h-48 flex items-center justify-center">
                       {member.photo ? (
                         <img
-                          src={member.photo.startsWith("/") ? member.photo : `/api/uploads/${member.photo}`}
+                          src={getImageUrl(member.photo)}
                           alt={member.name}
                           className="w-full h-full object-cover"
                         />

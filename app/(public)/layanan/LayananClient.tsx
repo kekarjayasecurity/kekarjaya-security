@@ -3,6 +3,7 @@
 import Link from "next/link";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/ui/AnimatedSection";
 import { getServiceIconPath } from "@/lib/icons";
+import { getImageUrl } from "@/lib/image-url";
 import type { Service } from "@/types";
 
 interface LayananClientProps {
@@ -32,7 +33,7 @@ export default function LayananClient({ services }: LayananClientProps) {
               {service.image_url ? (
                 <div className="w-full h-48 bg-gray-200 overflow-hidden">
                   <img
-                    src={`/api/uploads/${service.image_url.replace(/^\/uploads\//, "")}`}
+                    src={getImageUrl(service.image_url)}
                     alt={service.title}
                     className="w-full h-full object-cover"
                   />

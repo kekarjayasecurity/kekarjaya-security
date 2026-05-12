@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/ui/AnimatedSection";
 import { getServiceIconPath, getIconPath } from "@/lib/icons";
+import { getImageUrl } from "@/lib/image-url";
 import type { Service, Page, Client } from "@/types";
 
 interface BerandaClientProps {
@@ -39,7 +40,7 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
         {heroImage ? (
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(/api/uploads/${heroImage.replace(/^\/uploads\//, "")})` }}
+            style={{ backgroundImage: `url(${getImageUrl(heroImage)})` }}
           />
         ) : null}
         <div className="absolute inset-0 bg-primary-700/80" />
@@ -98,7 +99,7 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
                   {service.image_url ? (
                     <div className="w-full h-40 bg-gray-200 rounded-lg mb-4 overflow-hidden">
                       <img
-                        src={`/api/uploads/${service.image_url.replace(/^\/uploads\//, "")}`}
+                        src={getImageUrl(service.image_url)}
                         alt={service.title}
                         className="w-full h-full object-cover"
                       />
@@ -208,7 +209,7 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
                     >
                       {client.logo_url && (
                         <img
-                          src={`/api/uploads/${client.logo_url.replace(/^\/uploads\//, "")}`}
+                          src={getImageUrl(client.logo_url)}
                           alt={client.name}
                           className="h-16 w-auto object-contain mb-3"
                         />
@@ -219,7 +220,7 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
                     <div className="flex flex-col items-center p-4">
                       {client.logo_url && (
                         <img
-                          src={`/api/uploads/${client.logo_url.replace(/^\/uploads\//, "")}`}
+                          src={getImageUrl(client.logo_url)}
                           alt={client.name}
                           className="h-16 w-auto object-contain mb-3"
                         />

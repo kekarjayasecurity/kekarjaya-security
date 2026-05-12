@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { getImageUrl } from "@/lib/image-url";
 
 interface ImageUploadProps {
   value?: string;
@@ -12,8 +13,7 @@ interface ImageUploadProps {
 
 function toUploadUrl(value: string | undefined): string | null {
   if (!value) return null;
-  const bare = value.replace(/^\/uploads\//, "");
-  return `/api/uploads/${bare}`;
+  return getImageUrl(value) || null;
 }
 
 export default function ImageUpload({
@@ -48,7 +48,7 @@ export default function ImageUpload({
         onMultipleChange(data.filenames);
       } else if (data.filenames && data.filenames.length > 0) {
         onChange(data.filenames[0]);
-        setPreview(`/api/uploads/${data.filenames[0]}`);
+        setPreview(getImageUrl(data.filenames[0]));
       }
     } catch {
       alert("Upload gagal");

@@ -4,6 +4,7 @@ import { query } from "@/lib/db";
 export const revalidate = 3600;
 import type { BlogPost, BlogCategory } from "@/types";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/ui/AnimatedSection";
+import { getImageUrl } from "@/lib/image-url";
 
 async function getPosts(page: number, categoryId?: number) {
   const limit = 9;
@@ -87,7 +88,7 @@ export default async function BlogPage({
                   {post.thumbnail && (
                     <div className="aspect-video bg-gray-200">
                       <img
-                        src={`/api/uploads/${post.thumbnail}`}
+                        src={getImageUrl(post.thumbnail)}
                         alt={post.title}
                         className="w-full h-full object-cover"
                       />
