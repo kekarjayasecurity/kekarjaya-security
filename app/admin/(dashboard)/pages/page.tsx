@@ -29,23 +29,25 @@ export default function AdminPagesPage() {
       </div>
       <Card>
         <Table headers={["Judul", "Slug", "Terakhir Diperbarui", "Aksi"]}>
-          {pages.map((page) => (
-            <tr key={page.id} className="border-b hover:bg-gray-50">
-              <td className="px-4 py-3 font-medium">{page.title}</td>
-              <td className="px-4 py-3 text-gray-500 text-sm">/{page.slug}</td>
-              <td className="px-4 py-3 text-gray-500 text-sm">
-                {new Date(page.updated_at).toLocaleDateString("id-ID")}
-              </td>
-              <td className="px-4 py-3">
-                <Link
-                  href={`/admin/pages/${page.id}`}
-                  className="text-accent-500 hover:text-accent-600 text-sm font-medium"
-                >
-                  Edit
-                </Link>
-              </td>
-            </tr>
-          ))}
+          {pages
+            .filter((page) => page.slug !== "struktur-organisasi")
+            .map((page) => (
+              <tr key={page.id} className="border-b hover:bg-gray-50">
+                <td className="px-4 py-3 font-medium">{page.title}</td>
+                <td className="px-4 py-3 text-gray-500 text-sm">/{page.slug}</td>
+                <td className="px-4 py-3 text-gray-500 text-sm">
+                  {new Date(page.updated_at).toLocaleDateString("id-ID")}
+                </td>
+                <td className="px-4 py-3">
+                  <Link
+                    href={`/admin/pages/${page.id}`}
+                    className="text-accent-500 hover:text-accent-600 text-sm font-medium"
+                  >
+                    Edit
+                  </Link>
+                </td>
+              </tr>
+            ))}
         </Table>
       </Card>
     </div>

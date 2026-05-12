@@ -1,4 +1,5 @@
 import { queryOne } from "@/lib/db";
+import { getImageUrl } from "@/lib/image-url";
 import type { Page } from "@/types";
 
 export const revalidate = 3600;
@@ -26,7 +27,7 @@ export default async function StrukturOrganisasiPage() {
       {page?.content ? (
         <div className="flex justify-center">
           <img
-            src={page.content}
+            src={getImageUrl(page.content)}
             alt="Struktur Organisasi PT Kekar Jaya Security"
             className="max-w-full h-auto rounded-lg shadow-md"
           />

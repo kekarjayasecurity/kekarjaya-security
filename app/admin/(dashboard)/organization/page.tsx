@@ -172,7 +172,7 @@ export default function AdminOrganizationPage() {
             <div>
               <p className="text-sm text-gray-500 mb-2">Pratinjau:</p>
               <img
-                src={image}
+                src={getImageUrl(image)}
                 alt="Struktur Organisasi"
                 className="max-w-md w-full h-auto rounded-lg border border-gray-200"
               />
