@@ -4,6 +4,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
 
 interface RichTextEditorProps {
   content: string;
@@ -16,6 +17,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
       StarterKit,
       Image,
       Link.configure({ openOnClick: false }),
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
     content,
     onUpdate: ({ editor }) => {
@@ -69,6 +71,39 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
           className={`px-2 py-1 rounded text-sm ${editor.isActive("orderedList") ? "bg-primary-700 text-white" : "hover:bg-gray-200"}`}
         >
           OL
+        </button>
+        <span className="w-px h-5 bg-gray-300 mx-1 self-center" />
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
+          className={`px-2 py-1 rounded text-sm ${editor.isActive({ textAlign: "left" }) ? "bg-primary-700 text-white" : "hover:bg-gray-200"}`}
+          title="Rata Kiri"
+        >
+          &#x2190;
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
+          className={`px-2 py-1 rounded text-sm ${editor.isActive({ textAlign: "center" }) ? "bg-primary-700 text-white" : "hover:bg-gray-200"}`}
+          title="Rata Tengah"
+        >
+          &#x2194;
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
+          className={`px-2 py-1 rounded text-sm ${editor.isActive({ textAlign: "right" }) ? "bg-primary-700 text-white" : "hover:bg-gray-200"}`}
+          title="Rata Kanan"
+        >
+          &#x2192;
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign("justify").run()}
+          className={`px-2 py-1 rounded text-sm ${editor.isActive({ textAlign: "justify" }) ? "bg-primary-700 text-white" : "hover:bg-gray-200"}`}
+          title="Rata Kanan Kiri"
+        >
+          &#x21C4;
         </button>
       </div>
       <EditorContent editor={editor} className="prose max-w-none p-4 min-h-[300px]" />

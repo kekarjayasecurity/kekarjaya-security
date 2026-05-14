@@ -197,7 +197,7 @@ export default function BerandaClient({ services, page, clients }: BerandaClient
             <AnimatedSection variant="fadeInUp">
               <h2 className="text-3xl font-bold text-primary-700 mb-8 text-center">Klien Kami</h2>
             </AnimatedSection>
-            <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8" staggerDelay={0.075}>
+            <StaggerContainer className="flex flex-row flex-wrap justify-center items-center gap-8" staggerDelay={0.075}>
               {clients.map((client) => (
                 <StaggerItem key={client.id} className="flex items-center justify-center">
                   {client.website_url ? (
