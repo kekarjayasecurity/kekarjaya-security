@@ -241,7 +241,7 @@ export default function BerandaClient({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <AnimatedSection variant="fadeInUp">
               <h2 className="text-3xl font-bold text-primary-700 mb-8 text-center">
-                Klien Kami
+                Yang Pernah Jadi Klien Kami
               </h2>
             </AnimatedSection>
             <StaggerContainer
